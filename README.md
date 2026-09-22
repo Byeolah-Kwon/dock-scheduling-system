@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dock Scheduling System
+
+It is a web application for scheduling vessel and non-vessel reservations across waterfront berths. The system allows users to select a date range, reserve an appropriately sized berth, prevent conflicting reservations, and retrieve existing bookings using a booking ID.
+
+## Live Demo
+
+[View the deployed application](https://byeolah-kwon.github.io/dock-scheduling-system/)
+
+## Features
+
+- Select arrival and departure dates
+- Create vessel and non-vessel event reservations
+- Filter berths based on vessel length
+- Check berth availability for the selected date range
+- Prevent overlapping berth reservations
+- Generate a unique booking ID for each reservation
+- Look up reservations using a booking ID
+- Persist newly created reservations using browser `localStorage`
+
+## Screenshots
+
+### Select a Date Range
+
+Users begin by selecting the arrival and departure dates for their reservation.
+
+<img width="621" height="516" alt="Screenshot 2026-09-22 at 5 45 10 PM" src="https://github.com/user-attachments/assets/f9da23f3-3600-493f-ae9d-0b57dcb6ac4b" />
+
+
+### Choose a Reservation Type
+
+Users can reserve dock space for either a vessel or a non-vessel event.
+
+<img width="621" height="516" alt="Screenshot 2026-09-22 at 5 45 32 PM" src="https://github.com/user-attachments/assets/b0b471e3-0232-42e1-9835-eea2491c647d" />
+
+
+### Find an Available Berth
+
+For vessel reservations, the application filters berths based on both vessel length and availability during the selected dates.
+
+<img width="621" height="608" alt="Screenshot 2026-09-22 at 5 46 15 PM" src="https://github.com/user-attachments/assets/8bad0e76-37ff-4233-aabe-8fe94e4c07e1" />
+
+## Booking Logic
+
+For a vessel reservation, a berth is available only when:
+
+1. The berth is long enough to accommodate the selected vessel.
+2. The berth does not have an existing reservation that overlaps with the selected date range.
+
+Non-vessel events use the same date-conflict checking logic without the vessel-length constraint.
+
+The application checks both the provided sample booking data and reservations created during the current browser session.
+
+## Reservation Lookup
+
+After confirming a reservation, the application generates a unique booking ID.
+
+Users can return to the reservation lookup page and enter this ID to retrieve their booking details.
+
+## Tech Stack
+
+- Next.js
+- React
+- TypeScript
+- CSS
+- Browser `localStorage`
+- GitHub Pages
+- GitHub Actions
 
 ## Getting Started
 
-First, run the development server:
+Clone the repository and install the dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open `http://localhost:3000` in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To create a production build:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
+## Data Persistence
 
-To learn more about Next.js, take a look at the following resources:
+The application includes sample vessel, berth, and booking data.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+New reservations are stored in browser `localStorage`. This approach keeps the prototype lightweight and allows reservations to persist across page refreshes without requiring a backend.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+For a production system, this could be extended with a backend API and persistent database so reservations are shared across users and devices.
 
-## Deploy on Vercel
+## Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The application is statically exported with Next.js and automatically deployed to GitHub Pages using GitHub Actions.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Pushes to the `main` branch trigger the deployment workflow.
